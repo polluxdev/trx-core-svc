@@ -1,16 +1,15 @@
-# To-do List API
-REST API for To-do List Web App
+# Transaction Core Service API
 
 ## Prerequisite
 - Go version 1.20+
-- Postgresql
+- MySQL
 
 ## Running
 ### Using Docker
-#### Postgresql
+#### MySQL
 
 ```
-docker run --name postgresql -e POSTGRES_PASSWORD=password -d -v ~/home/user/postgres-data:/var/lib/postgresql/data -p 5432:5432 postgres
+docker run --name mysql-temp -p 3306:3306 -d mysql:latest
 ```
 
 #### Go
