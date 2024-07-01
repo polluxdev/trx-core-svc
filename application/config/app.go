@@ -35,24 +35,25 @@ var (
 )
 
 func Init() {
-	loadEnvFile()
+	if os.Getenv("APP_ENV") == "local" || os.Getenv("APP_ENV") == "" {
+		loadEnvFile()
+	}
+
 	loadAppEnv()
 	loadDbEnv()
 }
 
 func loadEnvFile() {
 	ex, _ := os.Executable()
-	if os.Getenv("APP_ENV") == "local" || os.Getenv("APP_ENV") == "" {
-		exPath := filepath.Dir(ex)
-		if err := godotenv.Load(exPath + "/.env"); err != nil {
-			logrus.WithFields(logrus.Fields{
-				"executable":  ex,
-				"filepath":    exPath,
-				"environment": os.Getenv("APP_ENV"),
-				"error":       err.Error(),
-			}).Fatalln(".env is not loaded properly")
-			os.Exit(1)
-		}
+	exPath := filepath.Dir(ex)
+	if err := godotenv.Load(exPath + "/.env"); err != nil {
+		logrus.WithFields(logrus.Fields{
+			"executable":  ex,
+			"filepath":    exPath,
+			"environment": os.Getenv("APP_ENV"),
+			"error":       err.Error(),
+		}).Fatalln(".env is not loaded properly")
+		os.Exit(1)
 	}
 }
 
