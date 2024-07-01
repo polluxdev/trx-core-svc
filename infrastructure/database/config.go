@@ -30,12 +30,19 @@ func setupDB(db *gorm.DB) *DbConnection {
 		db.LogMode(true)
 	}
 
+	if config.App.AppEnv == "docker" {
+		db.AutoMigrate(&Consumer{}, &Limit{}, &ConsumerLimit{}, &Transaction{}, &TransactionDetail{})
+	}
+
 	db.DB().SetMaxIdleConns(config.Db.MaxConnectionIdle)
 	db.DB().SetMaxOpenConns(config.Db.MaxConnectionOpen)
 
 	if config.App.AppDebug {
 		db = db.Debug()
 	}
+
+	// Seed data
+	seedData(db)
 
 	return &DbConnection{Db: db}
 }
@@ -46,7 +53,7 @@ func NewConnection() *DbConnection {
 		err error
 	)
 
-	dsn := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", config.Db.User, config.Db.Password, config.Db.DatabaseName)
+	dsn := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", config.Db.User, config.Db.Password, config.Db.Host, config.Db.DatabaseName)
 	db, err = attemptDBConnection(0, dsn)
 	if err != nil {
 		logrus.WithFields(logrus.Fields{

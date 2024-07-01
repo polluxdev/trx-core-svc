@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mariadb-temp:
+    image: mariadb:latest
+    container_name: mariadb-temp
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db_trx
+    ports:
+      - '3306:3306'
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trx-core-svc
+    environment:
+      APP_ENV: docker
+      APP_NAME: trx-core-svc
+      APP_PORT: 5000
+      APP_DEBUG: true
+      DB_HOST: mariadb-temp
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: db_trx
+      DB_DRIVER_NAME: mysql
+      DB_MAX_CONNECTION_OPEN: 20
+      DB_MAX_CONNECTION_IDLE: 20
+      DB_TIMEZONE: Asia/Jakarta
+      DB_MAX_RETRIES: 20
+      AES_KEY: HUeMyWseGIJC1zWhDV8TymsKn6XrRjLs
+    depends_on:
+      - mariadb-temp
+    ports:
+      - '5000:5000'
