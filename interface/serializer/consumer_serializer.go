@@ -8,7 +8,7 @@ import (
 
 type ConsumerDTO struct {
 	ID           int     `json:"id"`
-	IdCardNumber string  `json:"id_card_number"`
+	NIK          string  `json:"nik"`
 	FullName     string  `json:"full_name"`
 	LegalName    string  `json:"legal_name"`
 	PlaceOfBirth string  `json:"place_of_birth"`
@@ -22,7 +22,7 @@ type ConsumerDTO struct {
 func SerializeConsumer(data *entity.Consumer) *ConsumerDTO {
 	result := &ConsumerDTO{
 		ID:           data.ID,
-		IdCardNumber: data.IdCardNumber,
+		NIK:          data.NIK,
 		FullName:     data.FullName,
 		LegalName:    data.LegalName,
 		PlaceOfBirth: data.PlaceOfBirth,

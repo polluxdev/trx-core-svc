@@ -9,16 +9,16 @@ import (
 )
 
 type ConsumerService struct {
-	ConsumerRepository repository.ConsumerRepositoryInterface
+	consumerRepository repository.ConsumerRepositoryInterface
 }
 
-func NewConsumerService(ConsumerRepository repository.ConsumerRepositoryInterface) *ConsumerService {
-	return &ConsumerService{ConsumerRepository: ConsumerRepository}
+func NewConsumerService(consumerRepository repository.ConsumerRepositoryInterface) *ConsumerService {
+	return &ConsumerService{consumerRepository: consumerRepository}
 }
 
 func (s *ConsumerService) CreateConsumer(request *model.NewConsumer) *entity.Consumer {
-	Consumer := &entity.Consumer{
-		IdCardNumber: request.IdCardNumber,
+	data := &entity.Consumer{
+		NIK:          request.NIK,
 		FullName:     request.FullName,
 		LegalName:    request.LegalName,
 		PlaceOfBirth: request.PlaceOfBirth,
@@ -28,9 +28,9 @@ func (s *ConsumerService) CreateConsumer(request *model.NewConsumer) *entity.Con
 		SelfiePhoto:  request.SelfiePhoto,
 	}
 
-	return s.ConsumerRepository.Store(Consumer)
+	return s.consumerRepository.Store(data)
 }
 
 func (s *ConsumerService) GetConsumer(id int) *entity.Consumer {
-	return s.ConsumerRepository.GetByColumn(&entity.Consumer{ID: id})
+	return s.consumerRepository.GetByColumn(&entity.Consumer{ID: id})
 }

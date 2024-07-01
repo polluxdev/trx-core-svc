@@ -4,7 +4,7 @@ import "time"
 
 type Consumer struct {
 	ID           int
-	IdCardNumber string
+	NIK          string
 	FullName     string
 	LegalName    string
 	PlaceOfBirth string

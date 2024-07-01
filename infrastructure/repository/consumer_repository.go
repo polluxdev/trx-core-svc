@@ -10,7 +10,6 @@ import (
 type ConsumerRepositoryInterface interface {
 	Store(*entity.Consumer) *entity.Consumer
 	GetList(*string, []interface{}, map[string]interface{}) ([]*entity.Consumer, *int64)
-	GetListByColumn(*entity.Consumer) []*entity.Consumer
 	GetByColumn(*entity.Consumer) *entity.Consumer
 	UpdateByColumn(*entity.Consumer)
 	DeleteById(int)
@@ -87,15 +86,6 @@ func (p *ConsumerRepository) GetByColumn(condition *entity.Consumer) *entity.Con
 	}
 
 	return &result
-}
-
-func (p *ConsumerRepository) GetListByColumn(condition *entity.Consumer) []*entity.Consumer {
-	var result []*entity.Consumer
-	if err := p.dbConn.Where(condition).Find(&result).Error; err != nil {
-		panic(utils.InvariantError(global.DATA_FETCH_FAILED, err))
-	}
-
-	return result
 }
 
 func (p *ConsumerRepository) UpdateByColumn(model *entity.Consumer) {
