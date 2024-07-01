@@ -81,7 +81,7 @@ func (p *LimitRepository) GetList(conditions *string, args []interface{}, pagina
 
 func (p *LimitRepository) GetByColumn(condition *entity.Limit) *entity.Limit {
 	var result entity.Limit
-	if err := p.dbConn.Preload("SubConsumers").Where(condition).First(&result).Error; err != nil {
+	if err := p.dbConn.Where(condition).First(&result).Error; err != nil {
 		panic(utils.InvariantError(global.DATA_FETCH_FAILED, err))
 	}
 

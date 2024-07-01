@@ -13,6 +13,8 @@ type Transaction struct {
 	AssetName         string
 	CreatedAt         *time.Time
 	UpdatedAt         *time.Time
+
+	TransactionDetails []*TransactionDetail `gorm:"foreignkey:TransactionID"`
 }
 
 func (Transaction) TableName() string {

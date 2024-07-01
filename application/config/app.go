@@ -29,9 +29,14 @@ type Database struct {
 	MaxRetries        int
 }
 
+type AESConfig struct {
+	Key string
+}
+
 var (
 	App = AppConfig{}
 	Db  = Database{}
+	Aes = AESConfig{}
 )
 
 func Init() {
@@ -41,6 +46,7 @@ func Init() {
 
 	loadAppEnv()
 	loadDbEnv()
+	loadAESConfig()
 }
 
 func loadEnvFile() {
@@ -75,4 +81,8 @@ func loadDbEnv() {
 	Db.MaxConnectionIdle, _ = strconv.Atoi(os.Getenv("DB_MAX_CONNECTION_IDLE"))
 	Db.Timezone = os.Getenv("DB_TIMEZONE")
 	Db.MaxRetries, _ = strconv.Atoi(os.Getenv("DB_MAX_RETRIES"))
+}
+
+func loadAESConfig() {
+	Aes.Key = os.Getenv("AES_KEY")
 }

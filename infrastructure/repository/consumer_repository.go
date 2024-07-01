@@ -81,7 +81,7 @@ func (p *ConsumerRepository) GetList(conditions *string, args []interface{}, pag
 
 func (p *ConsumerRepository) GetByColumn(condition *entity.Consumer) *entity.Consumer {
 	var result entity.Consumer
-	if err := p.dbConn.Preload("SubConsumers").Where(condition).First(&result).Error; err != nil {
+	if err := p.dbConn.Where(condition).First(&result).Error; err != nil {
 		panic(utils.InvariantError(global.DATA_FETCH_FAILED, err))
 	}
 

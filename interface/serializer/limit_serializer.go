@@ -1,24 +1,26 @@
 package serializer
 
 import (
+	"github.com/polluxdev/trx-core-svc/application/global"
+	"github.com/polluxdev/trx-core-svc/common/helper"
 	"github.com/polluxdev/trx-core-svc/domain/entity"
 )
 
 type LimitDTO struct {
-	ID           int     `json:"id"`
-	Duration     int     `json:"duration"`
-	DurationType string  `json:"duration_type"`
-	LimitAmount  float64 `json:"limit_amount"`
-	CreatedAt    string  `json:"created_at"`
+	ID          string  `json:"id"`
+	Duration    int     `json:"duration"`
+	LimitType   string  `json:"limit_type"`
+	LimitAmount float64 `json:"limit_amount"`
+	CreatedAt   string  `json:"created_at"`
 }
 
 func SerializeLimit(data *entity.Limit) *LimitDTO {
 	result := &LimitDTO{
-		ID:           data.ID,
-		Duration:     data.Duration,
-		DurationType: data.DurationType,
-		LimitAmount:  data.LimitAmount,
-		CreatedAt:    *data.CreatedAt,
+		ID:          helper.Encrypt(data.ID),
+		Duration:    data.Duration,
+		LimitType:   data.LimitType,
+		LimitAmount: data.LimitAmount,
+		CreatedAt:   helper.TimeToString(data.CreatedAt, global.DATE_TIME_FORMAT),
 	}
 
 	return result
