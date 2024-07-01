@@ -55,15 +55,19 @@ func Serve() {
 
 	// Initialize repositories
 	consumerRepository := repository.NewConsumerRepository(dbConn.Db)
+	limitRepository := repository.NewLimitRepository(dbConn.Db)
 
 	// Initialize services
 	consumerService := service.NewConsumerService(consumerRepository)
+	limitService := service.NewLimitService(limitRepository)
 
 	// Initialize controllers
 	consumerController := controller.NewConsumerController(consumerService, validator)
+	limitController := controller.NewLimitController(limitService, validator)
 
 	// Setup routers
 	router.SetupConsumerRouter(apiV1, consumerController)
+	router.SetupLimitRouter(apiV1, limitController)
 
 	if err := r.Run(":" + config.App.AppPort); err != nil {
 		logrus.WithFields(logrus.Fields{
